@@ -5,10 +5,27 @@ import Script from "next/script";
 import { useAppContext } from "../context/AppContext";
 import { useRouter } from "next/router";
 
-// Add Chart.js type to Window interface
+// Strongly typed Chart.js window declaration
+interface ChartInstance {
+  destroy: () => void;
+}
+
+interface ChartTooltipItem {
+  label?: string;
+  parsed: number | null;
+}
+
+interface ChartConstructor {
+  new (
+    ctx: CanvasRenderingContext2D,
+    config: Record<string, unknown>
+  ): ChartInstance;
+  getChart: (canvas: HTMLCanvasElement) => ChartInstance | undefined;
+}
+
 declare global {
   interface Window {
-    Chart: any;
+    Chart?: ChartConstructor;
   }
 }
 
@@ -129,10 +146,10 @@ export default function Dashboard() {
             },
             tooltip: {
               callbacks: {
-                label: function (context) {
+                label: function (context: ChartTooltipItem) {
                   let label = context.label || "";
                   if (label) label += ": ";
-                  if (context.parsed !== null)
+                  if (context.parsed !== null && context.parsed !== undefined)
                     label += context.parsed + " tasks";
                   return label;
                 },
