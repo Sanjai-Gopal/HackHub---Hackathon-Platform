@@ -238,33 +238,49 @@ export default function Files() {
           />
         </div>
 
-        {/* ✅ File grid with delete button */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {files.map((file) => (
-            <div
-              key={file.id}
-              className="glass rounded-xl p-3 text-center transition-all duration-300 hover:scale-105 relative"
-            >
-              <button
-                onClick={() => handleDeleteFile(file.name)}
-                className="absolute top-2 right-2 text-red-400 hover:text-red-600 text-sm"
-                title="Delete file"
+        {/* ✅ File grid with delete button or empty state */}
+        {files.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {files.map((file) => (
+              <div
+                key={file.id}
+                className="glass rounded-xl p-3 text-center transition-all duration-300 hover:scale-105 relative"
               >
-                ✖
-              </button>
+                <button
+                  onClick={() => handleDeleteFile(file.name)}
+                  className="absolute top-2 right-2 text-red-400 hover:text-red-600 text-sm"
+                  title="Delete file"
+                >
+                  ✖
+                </button>
 
-              <button
-                onClick={() => handleDownloadFile(file.name)}
-                className="block w-full"
-              >
-                <span className="text-4xl">{file.icon}</span>
-                <p className="text-body-sm font-body mt-2 truncate text-blue-400 hover:underline">
-                  {file.name}
-                </p>
-              </button>
-            </div>
-          ))}
-        </div>
+                <button
+                  onClick={() => handleDownloadFile(file.name)}
+                  className="block w-full"
+                >
+                  <span className="text-4xl">{file.icon}</span>
+                  <p className="text-body-sm font-body mt-2 truncate text-blue-400 hover:underline">
+                    {file.name}
+                  </p>
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-10 glass rounded-xl border border-dashed border-zinc-700/60">
+            <span className="text-4xl mb-2 block">📁</span>
+            <p className="text-sm font-medium text-white">No files uploaded yet</p>
+            <p className="text-xs text-zinc-400 mt-1 max-w-sm mx-auto mb-4">
+              Share project files, diagrams, or presentations with your team (Max 10MB).
+            </p>
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="btn-primary text-xs px-4 py-2"
+            >
+              Upload Your First File
+            </button>
+          </div>
+        )}
 
         {/* ✅ Show recently uploaded file */}
         {uploadedFile && (
@@ -290,24 +306,40 @@ export default function Files() {
           </button>
         </div>
 
-        <ul className="space-y-2">
-          {links.map((link) => (
-            <li
-              key={link.id}
-              className="glass rounded-xl flex items-center justify-between p-3 transition-all duration-300 hover:scale-[1.02]"
-            >
-              <a
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gradient-primary hover:underline truncate"
+        {links.length > 0 ? (
+          <ul className="space-y-2">
+            {links.map((link) => (
+              <li
+                key={link.id}
+                className="glass rounded-xl flex items-center justify-between p-3 transition-all duration-300 hover:scale-[1.02]"
               >
-                {link.title}
-              </a>
-              <span className="text-caption text-zinc-500">{link.category}</span>
-            </li>
-          ))}
-        </ul>
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gradient-primary hover:underline truncate"
+                >
+                  {link.title}
+                </a>
+                <span className="text-caption text-zinc-500">{link.category}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="text-center py-8 glass rounded-xl border border-dashed border-zinc-700/60">
+            <span className="text-3xl mb-2 block">🔗</span>
+            <p className="text-sm font-medium text-white">No links saved yet</p>
+            <p className="text-xs text-zinc-400 mt-1 max-w-sm mx-auto mb-4">
+              Bookmark important team URLs like your GitHub repository, Figma design, or live demo.
+            </p>
+            <button
+              onClick={openAddLinkModal}
+              className="btn-primary text-xs px-4 py-2"
+            >
+              Add Project Link
+            </button>
+          </div>
+        )}
       </div>
 
       {/* ✅ Add Link Modal */}

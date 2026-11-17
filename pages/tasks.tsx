@@ -151,6 +151,17 @@ export default function Tasks() {
         task card to move it to a different column, helping everyone stay
         synchronized on the project's workflow.
       </p>
+      {todoTasks.length === 0 && inProgressTasks.length === 0 && doneTasks.length === 0 && (
+        <div className="mb-6 p-6 glass rounded-xl border border-dashed border-cyan-500/40 text-center">
+          <p className="text-base font-semibold text-white mb-1">Your Kanban board is currently empty</p>
+          <p className="text-xs text-zinc-400 max-w-md mx-auto mb-4">
+            Organize your sprint deliverables, assign tasks to team members, and track status transitions in real time.
+          </p>
+          <button onClick={openAddTaskModal} className="btn-primary text-xs px-4 py-2">
+            + Create Your First Task
+          </button>
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* To Do */}
         <div className="card">
@@ -186,7 +197,9 @@ export default function Tasks() {
                 </div>
               ))
             ) : (
-              <p className="text-zinc-400 text-center py-4">No tasks to do</p>
+              <div className="text-center py-6 glass rounded-xl border border-dashed border-zinc-700/50">
+                <p className="text-xs text-zinc-400">No tasks to do</p>
+              </div>
             )}
           </div>
         </div>
@@ -224,9 +237,9 @@ export default function Tasks() {
                 </div>
               ))
             ) : (
-              <p className="text-zinc-400 text-center py-4">
-                No tasks in progress
-              </p>
+              <div className="text-center py-6 glass rounded-xl border border-dashed border-zinc-700/50">
+                <p className="text-xs text-zinc-400">No tasks in progress</p>
+              </div>
             )}
           </div>
         </div>
@@ -266,9 +279,9 @@ export default function Tasks() {
                 </div>
               ))
             ) : (
-              <p className="text-zinc-400 text-center py-4">
-                No completed tasks
-              </p>
+              <div className="text-center py-6 glass rounded-xl border border-dashed border-zinc-700/50">
+                <p className="text-xs text-zinc-400">No completed tasks</p>
+              </div>
             )}
           </div>
         </div>
